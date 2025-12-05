@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    
 <meta charset="UTF-8">
 <title>Go à la Salle — Trouve un partenaire de motivation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +16,7 @@
   --cream: #F2D5BB;
   --orange: #D9420B;
 
-  --dark: #D9420B; /* couleur équivalente à menswear */
+  --dark: #3A2231; /* couleur équivalente à menswear */
   --pink-light: #E8C7C7;
   --text: #1A1A1A;
   --gray: #555;
@@ -28,7 +27,7 @@
 ------------------------------------------------------------- */
 body {
   margin: 0;
-  font-family: Montserrat, sans-serif  ;
+  font-family: "Inter", sans-serif;
   background: #FAF7F2; /* fond très doux comme l’exemple */
   color: var(--text);
   line-height: 1.6;
@@ -60,7 +59,7 @@ h1, h2, h3 {
 }
 
 /* -------------------------------------------------------------
-   BLOCK 1 : Bandeau arrondi foncé (comme l'image)
+   BLOCK 1 : Bandeau arrondi foncé
 ------------------------------------------------------------- */
 .banner {
   max-width: 900px;
@@ -170,7 +169,7 @@ label {
 }
 
 input, select {
-  width: 95%;
+  width: 100%;
   padding: 14px;
   margin-top: 6px;
 
@@ -230,6 +229,38 @@ button:hover {
   <p>La plateforme qui t’aide à trouver un partenaire pour aller t'entraîner.</p>
   <p>Motivation, discipline, et énergie à deux.</p>
 </section>
+
+<!-- BLOC 1 : Bandeau -->
+<section class="banner">
+  <h2>Rejoins des sportifs motivés près de chez toi</h2>
+  <p>Des membres déterminés qui veulent s’entraider pour aller à la salle.</p>
+</section>
+
+<!-- BLOC 2 : Ce que tu recevras -->
+<h2 class="section-title">Ce que tu vas obtenir :</h2>
+
+<section class="cards">
+
+  <div class="card">
+    <div class="icon">💬</div>
+    <h3>Rencontres locales</h3>
+    <p>Des partenaires disponibles près de chez toi pour s'entraîner ensemble.</p>
+  </div>
+
+  <div class="card">
+    <div class="icon">🔥</div>
+    <h3>Motivation permanente</h3>
+    <p>Un buddy qui t’aide à rester constant dans ton programme sportif.</p>
+  </div>
+
+  <div class="card">
+    <div class="icon">📅</div>
+    <h3>Sessions organisées</h3>
+    <p>Planifie des séances à deux et progresse plus vite.</p>
+  </div>
+
+</section>
+
 <!-- FORM -->
 <section class="form-block">
   <h2>Inscris-toi gratuitement</h2>
@@ -262,46 +293,36 @@ button:hover {
     <p id="msg"></p>
   </form>
 </section>
-<!-- BLOC 1 : Bandeau -->
-<section class="banner">
-  <h2>Rejoins des sportifs motivés près de chez toi</h2>
-  <p>Des membres déterminés qui veulent s’entraider pour aller à la salle.</p>
-</section>
-
-<!-- BLOC 2 : Ce que tu recevras -->
-<h2 class="section-title">Ce que tu vas obtenir :</h2>
-
-<section class="cards">
-
-  <div class="card">
-    <div class="icon">💬</div>
-    <h3>Rencontres locales</h3>
-    <p>Des partenaires disponibles près de chez toi pour s'entraîner ensemble.</p>
-  </div>
-
-  <div class="card">
-    <div class="icon">🔥</div>
-    <h3>Motivation permanente</h3>
-    <p>Un buddy qui t’aide à rester constant dans ton programme sportif.</p>
-  </div>
-
-  <div class="card">
-    <div class="icon">📅</div>
-    <h3>Sessions organisées</h3>
-    <p>Planifie des séances à deux et progresse plus vite.</p>
-  </div>
-
-</section>
-<section class="hero">
-  <p> <i>Application propulsée par undeux.fr, votre partenaire en innovation digitale.</i></p>
-</section>
-
 
 <script>
-document.getElementById("gymForm").addEventListener("submit", function(e){
+const form = document.getElementById("gymForm");
+const msg = document.getElementById("msg");
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const msg = document.getElementById("msg");
-  msg.textContent = "✔️ Inscription envoyée !";
+  msg.classList.remove("visible");
+  msg.textContent = "⏳ Envoi en cours...";
+
+  const data = Object.fromEntries(new FormData(form).entries());
+
+  try {
+    const res = await fetch("/api/submitGymForm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    if (res.ok) {
+      msg.textContent = "✔️ Inscription envoyée, merci !";
+      form.reset();
+    } else {
+      const errText = await res.text();
+      msg.textContent = "❌ Erreur lors de l’enregistrement : " + errText;
+    }
+  } catch (err) {
+    msg.textContent = "❌ Erreur réseau : " + err.message;
+  }
+
   msg.classList.add("visible");
 });
 </script>
