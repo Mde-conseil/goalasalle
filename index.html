@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+<meta charset="UTF-8">
+<title>Go à la Salle — Trouve un partenaire de motivation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* -------------------------------------------------------------
+   PALETTE (tes couleurs)
+------------------------------------------------------------- */
+:root {
+  --yellow: #F2CC0C;
+  --yellow-dark: #F2B90C;
+  --gold: #F2BF5E;
+  --cream: #F2D5BB;
+  --orange: #D9420B;
+
+  --dark: #D9420B; /* couleur équivalente à menswear */
+  --pink-light: #E8C7C7;
+  --text: #1A1A1A;
+  --gray: #555;
+}
+
+/* -------------------------------------------------------------
+   GLOBAL
+------------------------------------------------------------- */
+body {
+  margin: 0;
+  font-family: Montserrat, sans-serif  ;
+  background: #FAF7F2; /* fond très doux comme l’exemple */
+  color: var(--text);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+/* -------------------------------------------------------------
+   HERO SECTION
+------------------------------------------------------------- */
+.hero {
+  max-width: 700px;
+  margin: 60px auto 40px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 44px;
+  font-weight: 800;
+  margin-bottom: 18px;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--gray);
+}
+
+/* -------------------------------------------------------------
+   BLOCK 1 : Bandeau arrondi foncé (comme l'image)
+------------------------------------------------------------- */
+.banner {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 40px 30px;
+
+  background: var(--dark);
+  color: #F4D7D7;
+  border-radius: 26px;
+
+  text-align: center;
+}
+
+.banner h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.banner p {
+  margin: 0;
+  font-size: 17px;
+  opacity: 0.9;
+}
+
+/* -------------------------------------------------------------
+   BLOCK 2 : Section cartes (3 colonnes)
+------------------------------------------------------------- */
+.section-title {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.cards {
+  max-width: 1000px;
+  margin: 0 auto 60px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+.card {
+  background: #fff;
+  border: 2px solid var(--pink-light);
+  border-radius: 16px;
+  padding: 28px;
+  text-align: center;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+  margin-top: 14px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.card p {
+  font-size: 15px;
+  color: var(--gray);
+  margin-top: 10px;
+}
+
+/* Icone simple */
+.card .icon {
+  font-size: 34px;
+  color: var(--dark);
+}
+
+/* -------------------------------------------------------------
+   FORM BLOCK
+------------------------------------------------------------- */
+.form-block {
+  max-width: 600px;
+  margin: 60px auto 100px;
+  padding: 40px 32px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 26px rgba(0,0,0,0.08);
+}
+
+.form-block h2 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+.form-block p {
+  color: var(--gray);
+  margin-bottom: 25px;
+}
+
+label {
+  margin-top: 16px;
+  display: block;
+  font-weight: 600;
+}
+
+input, select {
+  width: 95%;
+  padding: 14px;
+  margin-top: 6px;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #FAFAFA;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  margin-top: 26px;
+  padding: 16px;
+
+  font-size: 17px;
+  font-weight: bold;
+  background: var(--orange);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+button:hover {
+  background: #b73508;
+}
+
+/* message */
+#msg {
+  opacity: 0;
+  margin-top: 20px;
+  text-align: center;
+  font-weight: 600;
+  transition: .3s;
+}
+
+#msg.visible {
+  opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Go à la Salle</h1>
+  <p>La plateforme qui t’aide à trouver un partenaire pour aller t'entraîner.</p>
+  <p>Motivation, discipline, et énergie à deux.</p>
+</section>
+<!-- FORM -->
+<section class="form-block">
+  <h2>Inscris-toi gratuitement</h2>
+  <p>Complète ton profil pour rejoindre la liste des membres motivés.</p>
+
+  <form id="gymForm">
+
+    <label>Sexe</label>
+    <select name="Sexe" required>
+      <option value="">-- Sélectionner --</option>
+      <option value="Homme">Homme</option>
+      <option value="Femme">Femme</option>
+      <option value="Autre">Autre</option>
+    </select>
+
+    <label>Âge</label>
+    <input type="number" name="Age" min="12" max="90" required>
+
+    <label>Lieu</label>
+    <input type="text" name="Lieu" required>
+
+    <label>Sous-lieu</label>
+    <input type="text" name="SousLieu" required>
+
+    <label>Motivation (semaines)</label>
+    <input type="number" name="Motivation" min="1" max="7" required>
+
+    <button type="submit">Je m’inscris</button>
+
+    <p id="msg"></p>
+  </form>
+</section>
+<!-- BLOC 1 : Bandeau -->
+<section class="banner">
+  <h2>Rejoins des sportifs motivés près de chez toi</h2>
+  <p>Des membres déterminés qui veulent s’entraider pour aller à la salle.</p>
+</section>
+
+<!-- BLOC 2 : Ce que tu recevras -->
+<h2 class="section-title">Ce que tu vas obtenir :</h2>
+
+<section class="cards">
+
+  <div class="card">
+    <div class="icon">💬</div>
+    <h3>Rencontres locales</h3>
+    <p>Des partenaires disponibles près de chez toi pour s'entraîner ensemble.</p>
+  </div>
+
+  <div class="card">
+    <div class="icon">🔥</div>
+    <h3>Motivation permanente</h3>
+    <p>Un buddy qui t’aide à rester constant dans ton programme sportif.</p>
+  </div>
+
+  <div class="card">
+    <div class="icon">📅</div>
+    <h3>Sessions organisées</h3>
+    <p>Planifie des séances à deux et progresse plus vite.</p>
+  </div>
+
+</section>
+
+
+
+<script>
+document.getElementById("gymForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const msg = document.getElementById("msg");
+  msg.textContent = "✔️ Inscription envoyée !";
+  msg.classList.add("visible");
+});
+</script>
+
+</body>
+</html>
