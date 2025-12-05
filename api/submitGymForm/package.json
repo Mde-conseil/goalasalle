@@ -1,0 +1,9 @@
+{
+  "name": "submit-gym-form",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@azure/identity": "^4.0.0",
+    "node-fetch": "^2.6.7"
+  }
+}
